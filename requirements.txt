@@ -6,6 +6,8 @@ qiskit-ibm-runtime==0.45.1
 pyzx==0.9.0
 numpy
 matplotlib
+pylatexenc
+pillow
 scipy
 pydantic
 python-multipart

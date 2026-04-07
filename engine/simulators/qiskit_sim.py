@@ -1,12 +1,18 @@
 from qiskit import transpile, qasm2
 from qiskit_aer import AerSimulator
 from qiskit.quantum_info import hellinger_fidelity
-from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+import qiskit_ibm_runtime.fake_provider as fake_provider
 
-def run_nisq_simulation(logical_circuit):
-    """Transpiles to FakeManila and runs Ideal vs Noisy simulations."""
+def run_nisq_simulation(logical_circuit, backend_name="FakeManilaV2"):
+    """Transpiles to a specified fake backend and runs Ideal vs Noisy simulations."""
     
-    backend = FakeManilaV2()
+    # Dynamically load the backend class
+    try:
+        backend_class = getattr(fake_provider, backend_name)
+        backend = backend_class()
+    except AttributeError:
+        # Fallback to Manila if not found
+        backend = fake_provider.FakeManilaV2()
     
     # 1. Transpile for Hardware
     physical_circuit = transpile(
