@@ -16,6 +16,10 @@ from engine.simulators.qiskit_sim import run_nisq_simulation
 
 app = FastAPI(title="NISQ Visualizer API")
 
+@app.get("/")
+async def root():
+    return {"status": "alive", "message": "NISQ Visualizer Backend is running"}
+
 # Add CORS Middleware
 app.add_middleware(
     CORSMiddleware,
